@@ -55,10 +55,10 @@ public class TelaProdutos extends BaseController implements Initializable{
     private TextField tfValor;
 
 
-    private ProdutoRepositorio gerenciador;
+    private ProdutoRepositorio repositorio;
 
-    public TelaProdutos(ProdutoRepositorio gerenciador){
-        this.gerenciador = gerenciador;
+    public TelaProdutos(ProdutoRepositorio repositorio){
+        this.repositorio = repositorio;
     }
 
 
@@ -79,7 +79,7 @@ public class TelaProdutos extends BaseController implements Initializable{
     private void atualizarTabela(){
         tbProdutos.getItems().clear();
 
-        tbProdutos.getItems().addAll(gerenciador.listar());
+        tbProdutos.getItems().addAll(repositorio.mostrarTodos());
     }
 
     @FXML
@@ -106,7 +106,7 @@ public class TelaProdutos extends BaseController implements Initializable{
             return;
         }
 
-        Result resultado = gerenciador.adicionarProduto(nome, descricao, valor, quantidade);
+        Result resultado = repositorio.cadastrar(nome, descricao, valor, quantidade);
 
         showMessage(resultado);
 

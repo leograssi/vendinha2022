@@ -6,6 +6,8 @@ import ifpr.pgua.eic.vendinha2022.controllers.TelaProdutos;
 import ifpr.pgua.eic.vendinha2022.model.FabricaConexao;
 import ifpr.pgua.eic.vendinha2022.model.daos.ClienteDAO;
 import ifpr.pgua.eic.vendinha2022.model.daos.JDBCClienteDAO;
+import ifpr.pgua.eic.vendinha2022.model.daos.JDBCProdutoDAO;
+import ifpr.pgua.eic.vendinha2022.model.daos.ProdutoDAO;
 import ifpr.pgua.eic.vendinha2022.model.repositories.ClienteRepositorio;
 import ifpr.pgua.eic.vendinha2022.model.repositories.ProdutoRepositorio;
 import ifpr.pgua.eic.vendinha2022.utils.BaseAppNavigator;
@@ -17,23 +19,28 @@ import ifpr.pgua.eic.vendinha2022.utils.ScreenRegistryFXML;
  */
 public class App extends BaseAppNavigator {
 
-    private ProdutoRepositorio gerenciador;
+    
     private FabricaConexao fabricaConexao = FabricaConexao.getInstance();
 
     private ClienteDAO clienteDao;
     private ClienteRepositorio clienteRepositorio;
+
+    private ProdutoDAO produtoDAO;
+    private ProdutoRepositorio produtoRepositorio;
 
     @Override
     public void init() throws Exception {
         // TODO Auto-generated method stub
         super.init();
 
-        gerenciador = new ProdutoRepositorio(fabricaConexao);
+        
         clienteDao = new JDBCClienteDAO(fabricaConexao);
         clienteRepositorio = new ClienteRepositorio(clienteDao);
 
         //gerenciador.geraFakes();
         //gerenciador.carregar();
+        produtoDAO = new JDBCProdutoDAO(fabricaConexao);
+        produtoRepositorio = new ProdutoRepositorio(produtoDAO);
     }
 
     @Override
@@ -61,7 +68,7 @@ public class App extends BaseAppNavigator {
     public void registrarTelas() {
         registraTela("PRINCIPAL", new ScreenRegistryFXML(getClass(), "fxml/principal.fxml", (o)->new TelaPrincipal()));
         registraTela("CLIENTES", new ScreenRegistryFXML(getClass(), "fxml/clientes.fxml", (o)->new TelaClientes(clienteRepositorio)));  
-        registraTela("PRODUTOS", new ScreenRegistryFXML(getClass(), "fxml/produtos.fxml", (o)->new TelaProdutos(gerenciador)));  
+        registraTela("PRODUTOS", new ScreenRegistryFXML(getClass(), "fxml/produtos.fxml", (o)->new TelaProdutos(produtoRepositorio)));  
     
     }
 

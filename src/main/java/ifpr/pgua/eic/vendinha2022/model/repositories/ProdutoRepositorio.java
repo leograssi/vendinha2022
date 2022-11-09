@@ -2,6 +2,8 @@ package ifpr.pgua.eic.vendinha2022.model.repositories;
 
 import java.util.List;
 
+import javax.xml.validation.Validator;
+
 import ifpr.pgua.eic.vendinha2022.model.FabricaConexao;
 import ifpr.pgua.eic.vendinha2022.model.daos.ClienteDAO;
 import ifpr.pgua.eic.vendinha2022.model.daos.ProdutoDAO;
@@ -14,13 +16,22 @@ public class ProdutoRepositorio {
 
         private ProdutoDAO dao;
     
-        public ProdutoRepositorio(FabricaConexao fabricaConexao) {
-            this.dao = (ProdutoDAO) fabricaConexao;
+        public ProdutoRepositorio(ProdutoDAO dao){
+            this.dao = dao;
         }
     
-        public Result cadastar(String nome, String descricao, double valor, double quantidade){
     
-            Produto produto = new Produto(nome,descricao,valor,quantidade);
+        public Result cadastrar(String nome, String descricao, double valor, double quantidadeEstoque){
+            
+            if(valor < 0){
+                return Result.fail("Valor inválido!");
+            }
+
+            if(quantidadeEstoque < 0){
+                return Result.fail("Quantidade de Estoque Inválido");
+            }
+
+            Produto produto = new Produto(nome,descricao,valor,quantidadeEstoque);
             
             return dao.criar(produto);
     
@@ -33,17 +44,11 @@ public class ProdutoRepositorio {
             return dao.atualizar(id, produto);
         }
     
-        public List<Produto> listar(){
-            return dao.buscarTodos();
+        public List<Produto> mostrarTodos(){
+            return dao.listarTodos();
         }
 
-        public Result adicionarProduto(String nome, String descricao, double valor, double quantidade) {
-            return null;
-        }
 
-        public Produto getProdutos() {
-            return null;
-        }
     
         
     }
