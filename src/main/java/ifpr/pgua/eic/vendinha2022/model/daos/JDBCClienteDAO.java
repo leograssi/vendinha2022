@@ -10,6 +10,7 @@ import java.util.List;
 
 import ifpr.pgua.eic.vendinha2022.model.FabricaConexao;
 import ifpr.pgua.eic.vendinha2022.model.entities.Cliente;
+import ifpr.pgua.eic.vendinha2022.model.entities.Produto;
 import ifpr.pgua.eic.vendinha2022.model.results.Result;
 
 public class JDBCClienteDAO implements ClienteDAO{
@@ -29,6 +30,7 @@ public class JDBCClienteDAO implements ClienteDAO{
 
             PreparedStatement pstm = con.prepareStatement("INSERT INTO clientes(nome,cpf,email,telefone) VALUES (?,?,?,?)");
 
+
             pstm.setString(1, cliente.getNome());
             pstm.setString(2, cliente.getCpf());
             pstm.setString(3, cliente.getEmail());
@@ -42,9 +44,9 @@ public class JDBCClienteDAO implements ClienteDAO{
             return Result.success("Cliente criado com sucesso!");
 
 
-        }catch(SQLException nomeQueQuiser){
-            System.out.println(nomeQueQuiser.getMessage());
-            return Result.fail(nomeQueQuiser.getMessage());
+        }catch(SQLException exc){
+            System.out.println(exc.getMessage());
+            return Result.fail(exc.getMessage());
         }
     }
 
@@ -115,5 +117,7 @@ public class JDBCClienteDAO implements ClienteDAO{
         // TODO Auto-generated method stub
         return null;
     }
+
+
     
 }

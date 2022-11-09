@@ -7,7 +7,7 @@ import ifpr.pgua.eic.vendinha2022.model.entities.Cliente;
 import ifpr.pgua.eic.vendinha2022.model.results.Result;
 
 public class ClienteRepositorio {
-    
+
 
     private ClienteDAO dao;
 
@@ -18,7 +18,7 @@ public class ClienteRepositorio {
     public Result cadastrar(String nome, String cpf, String email, String telefone){
 
         Cliente cliente = new Cliente(nome,cpf,email,telefone);
-        
+
         return dao.criar(cliente);
 
     }
@@ -34,5 +34,5 @@ public class ClienteRepositorio {
         return dao.buscarTodos();
     }
 
-    
+
 }
